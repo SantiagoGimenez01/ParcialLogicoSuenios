@@ -46,4 +46,42 @@ clubChico(aldosivi).
 clubChico(arsenal).
     
 % Punto 3
+tieneQuimicaCon(campanita, Persona):-
+    creeEn(Persona, campanita),
+    suenio(Persona, Suenio),
+    dificultadDeSuenio(Suenio, Dificultad),
+    Dificultad < 5.
+tieneQuimicaCon(Personaje, Persona):-
+    creeEn(Persona, Personaje),
+    not(esAmbiciosa(Persona)),
+    forall(suenio(Persona, Suenio), esPuro(Suenio)).
+
+esPuro(serFutbolista(_)).
+esPuro(serCantante(Discos)):-
+    Discos < 200000.
 % Punto 4
+esAmigo(campanita, reyesMagos).
+esAmigo(campanita, conejoDePascua).
+esAmigo(conejoDePascua, cavenaghi).
+
+puedeAlegrarA(Personaje, Persona):-
+    suenio(Persona, _),
+    tieneQuimicaCon(Personaje, Persona),
+    not(estaEnfermo(Personaje)).
+puedeAlegrarA(Personaje, Persona):-
+    suenio(Persona, _),
+    tieneQuimicaCon(Personaje, Persona),
+    esPersonajeBackUp(Personaje, PersonajeBackUp),
+    not(estaEnfermo(PersonajeBackUp)).
+
+estaEnfermo(campanita).
+estaEnfermo(reyesMagos).
+estaEnfermo(conejoDePascua).
+
+esPersonajeBackUp(Personaje, PersonajeBackUp):-
+    esAmigo(Personaje, PersonajeBackUp).
+
+esPersonajeBackUp(Personaje, PersonajeBackUp):-
+    esAmigo(Personaje, Otro),
+    esPersonajeBackUp(Otro, PersonajeBackUp).
+
